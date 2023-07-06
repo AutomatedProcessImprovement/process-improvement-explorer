@@ -10,7 +10,7 @@ export const handleRegister = async (uName: string, fName:string, lName: string,
   formData.append('email', email)
 
   return await REGISTER_API_INSTANCE.post(
-    `/api/users/`,
+    `/api/pix/users/`,
     formData
   )
 }

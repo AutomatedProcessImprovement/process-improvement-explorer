@@ -28,7 +28,7 @@ import paths from "../../router/paths";
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import CreateProjectDialog from "../Upload/CreateProjectDialog";
 import {getProjectFiles} from "../../api/project_api";
-import {editExistingFileTitle, removeProjectFile, uploadFile} from "../../api/file_api";
+import {editExistingFileTitle, getProjectFileForDownload, removeProjectFile, uploadFile} from "../../api/file_api";
 import {theme} from "../../themes/ChipTheme";
 import {MenuProps} from "../../themes/MenuPropsProjectPage";
 import {colors, fileTags, Selectable, tValToActual} from "../../helpers/mappers";
@@ -115,7 +115,38 @@ const ProjectPage = ({auth, userManager}) => {
     setAnchorEl(event.currentTarget);
   }
 
-  const handleCloseToolSelectionMenu = (e:string) => {
+  const handleCloseToolSelectionMenu = async (e:string) => {
+    console.log(e)
+    switch (e) {
+      case "PROSIMOS":
+        let bpmnFileContent
+        let jsonFileContent
+        for (const file in selectedProjectFiles) {
+
+          if (selectedProjectFiles[file].tags === 'BPMN') {
+            bpmnFileContent = await getProjectFileForDownload(selectedProjectFiles[file].path)
+          }
+          if (selectedProjectFiles[file].tags === 'SIM_MODEL') {
+            jsonFileContent = await getProjectFileForDownload(selectedProjectFiles[file].path)
+          }
+        }
+
+        const jsonString = JSON.stringify(jsonFileContent.data)
+        var blob = new Blob([jsonString], { type: "application/json" })
+
+        const jsonFile = new File([new Blob([blob])], "sim_model.json", {type: 'application/json'})
+        const bpmnFile = new File([new Blob([bpmnFileContent.data])], "bpmn_model.bpmn")
+
+        navigate(
+          paths.SIMULATOR_SCENARIO_PATH, {
+            state: {
+              bpmnFile: bpmnFile,
+              jsonFile: jsonFile,
+            }
+          }
+        )
+
+    }
     setAnchorEl(null);
   };
 
@@ -219,7 +250,7 @@ const ProjectPage = ({auth, userManager}) => {
     );
   };
 
-  const handleFileChecked = (checked, fileID, tags) => {
+  const handleFileChecked = (checked, fileID, tags, path) => {
     if (!checked) {
       const checkFileExists = fileId => selectedProjectFiles.some( ({uuid}) => uuid == fileId)
       if (checkFileExists(fileID)) {
@@ -230,7 +261,8 @@ const ProjectPage = ({auth, userManager}) => {
     } else {
       const newObj = {
         'uuid': fileID,
-        'tags': tags
+        'tags': tags,
+        'path': path
       }
       const checkFileExists = fileId => selectedProjectFiles.some(({uuid}) => uuid == fileId )
       if (!checkFileExists(newObj.uuid)) {

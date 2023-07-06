@@ -12,6 +12,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import PrivateRoute from "./ProtectedRoute";
 import Register from "../components/Login/Register";
 
+import Upload from "../ProsimosFrontendApp/src/components/Upload"
+import SimulationParameters from "../ProsimosFrontendApp/src/components/SimulationParameters";
+import BPMNModelViewer from "../ProsimosFrontendApp/src/components/model/BPMNModelViewer";
+
 
 interface RouterProps {
   authenticated : boolean,
@@ -56,7 +60,12 @@ const AppRouter = (props: RouterProps) => {
       <Route exact path={paths.PROJECT_ID_PATH} element={<PrivateRoute auth={authenticated}/>}>
         <Route exact path={paths.PROJECT_ID_PATH} element={<ProjectPage auth={authenticated} userManager={userManager}/>}/>
       </Route>
-
+      <Route path={"/simulator"}>
+        <Route path={"/simulator"} element={<Upload/>} />
+        <Route path={paths.SIMULATOR_UPLOAD_PATH} element={<Upload/>} />
+        <Route path={paths.SIMULATOR_SCENARIO_PATH} element={<SimulationParameters/>} />
+        <Route path={paths.MODEL_VIEWER} element={<BPMNModelViewer/>} />
+      </Route>
       {/*<Route*/}
       {/*       element={*/}
       {/*            <Projects authenticated={authenticated} userManager={userManager} />*/}

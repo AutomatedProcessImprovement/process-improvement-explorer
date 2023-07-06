@@ -55,9 +55,9 @@ const PFile = (props: FileProps) => {
 
   const onClickChange = (e) => {
     if (e.target.checked) {
-      return onChange(true, props.uuid, props.tag);
+      return onChange(true, props.uuid, props.tag, props.path);
     } else {
-      return onChange(false, props.uuid, props.tag);
+      return onChange(false, props.uuid, props.tag, props.path);
     }
   }
 

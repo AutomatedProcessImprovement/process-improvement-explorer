@@ -30,7 +30,7 @@ def send_registration_request(username, firstname, lastname, email):
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer dGdrLUC2RyTxLiz3ICKJgZqa7RVrpS50MfPGZzOWQE1O-MzODSa-q9P0hO9630UGCk1aokc'
+        'Authorization': 'Bearer NqFVQjRF1Rl1alnT64naJYXnt3AXUbuVnDsdSQV8Q4j4ckt6vLMNE37J9wSKsl4-x6APsgQ'
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)

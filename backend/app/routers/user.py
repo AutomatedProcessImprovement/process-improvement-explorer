@@ -33,6 +33,7 @@ def register_new_user(
 
     res = zitadel_response[0]
     otp = zitadel_response[1]
+    print(res.text)
     zitadel_id = json.loads(res.text)['userId']
     new_user = User(zitadel_id=zitadel_id)
 

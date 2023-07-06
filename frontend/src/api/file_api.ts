@@ -1,10 +1,10 @@
 import {API_instance} from "../axios";
 
-export const getProjectFileForDownload = async (fileId: number) => {
+export const getProjectFileForDownload = async (file_path: string) => {
   return await API_instance.get(
-    `/api/files/`, {
+    `/api/pix/files/`, {
       params: {
-        fileId: fileId
+        file_path: file_path
       }
     }
   )
@@ -14,13 +14,13 @@ export const editExistingFileTitle = async (fileId: number, name: string) => {
   formData.append('file_id', fileId)
   formData.append('name', name)
   return await API_instance.put(
-    `/api/files/`,
+    `/api/pix/files/`,
     formData
   )
 }
 export const removeProjectFile = async (fid: number) => {
   return await API_instance.delete(
-    `/api/files/${fid}`,
+    `/api/pix/files/${fid}`,
   )
 }
 export const uploadFile = async (file: File, tag: string, projectId: number) => {
@@ -29,7 +29,7 @@ export const uploadFile = async (file: File, tag: string, projectId: number) => 
   formData.append('project_id', projectId)
   formData.append('file', file)
   return await API_instance.post(
-    `/api/files/`,
+    `/api/pix/files/`,
     formData
   )
 }

@@ -31,7 +31,7 @@ def get_token(
     print(token)
     # Simulate a database query to find a known token
     user_data = decode_user(token)
-    if user_data['client_id'] != '220248957215899651@pix':
+    if user_data['client_id'] != '221722104758861827@pix-frontend':
         raise HTTPException(
             status_code=http.HTTPStatus.FORBIDDEN,
             detail=UnauthorizedMessage().detail,
